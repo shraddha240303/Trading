@@ -1,26 +1,165 @@
-# Trading
-What is the Fear & Greed Index?
-Imagine the stock market is like a crowd at a sale. When everyone is excited and rushing to buy, that is "Greed." When everyone is scared and running away, that is "Fear." The Fear & Greed Index is a number from 0 to 100 that measures this crowd mood for Bitcoin every single day.
-Analogy: Think of it like a "panic meter" at a cricket match. If India is winning, everyone is happy (Greed = 80+). If India is losing badly, everyone panics (Fear = 20-).
-What is Hyperliquid trader data?
-Hyperliquid is a crypto trading platform. The data shows every single buy and sell trade made by 32 real traders — like a full transaction ledger. It tells you who traded, what they traded, how much they made or lost, and when.
-Analogy: Imagine you have the complete bank statement of 32 people for 6 months. You can see every rupee they spent and earned.
-What is your goal?
-You want to find out: Does the crowd mood (Fear/Greed) affect how much profit traders make? For example — do traders earn more when Bitcoin sentiment is "Extreme Greed"? Do they make mistakes when everyone is panicking? This is what you will prove with data.
+# Trading Behaviour Analysis using Fear & Greed Index
 
-Column-by-column explanation
+## Project Overview
+This project analyzes whether market sentiment affects trader profitability using real trading data from Hyperliquid and the Bitcoin Fear & Greed Index.
 
-Fear & Greed CSV
-timestamp - A Unix timestamp — the number of seconds since Jan 1, 1970. It is a universal way computers store time. You will convert this to a readable date in Python.
-value - A number from 0 to 100. The actual sentiment score for that day. 0 = pure panic, 100 = pure euphoria. This is the raw signal you will use for analysis.
-classification - The human-readable label for the value. There are 5 categories: Extreme Fear (0–24), Fear (25–44), Neutral (45–55), Greed (56–74), Extreme Greed (75–100). This is what you will use to group your trader data.
-date - The date in YYYY-MM-DD format. You will use this as the key to join with your trader dataset — matching each trade to the sentiment of that day.
+The goal is to understand how traders behave during:
+- Extreme Fear
+- Fear
+- Neutral
+- Greed
+- Extreme Greed
 
-Historic CSV
-Account - A wallet address — a unique ID for each trader on the blockchain. Like an anonymous bank account number. You have 32 unique traders.
-Coin - Which cryptocurrency was traded. Examples: BTC (Bitcoin), ETH (Ethereum), HYPE, SOL. The "@107" is an internal Hyperliquid token ID.
-Execution Price - The actual price at which the trade happened. Not the price you wanted — the price you got. Important for slippage analysis.
-Size Tokens & Size USD - How many coins were traded (Size Tokens) and what that was worth in dollars (Size USD). Size USD is more useful for comparison across different coins. Buying 100 DOGE is different from buying 100 BTC. Size USD tells you the real dollar value of each trade.
-Side - BUY or SELL. Simple — did the trader open a long position (expecting price to rise) or short (expecting fall)?
-Timestamp IST - Date and time of the trade in Indian Standard Time. Format: DD-MM-YYYY HH:MM. You will parse this and extract just the date to match with the sentiment data.
+and identify whether traders earn more profit during certain market emotions.
 
+---
+
+# What is the Fear & Greed Index?
+
+The Fear & Greed Index measures the overall mood of the crypto market on a scale from **0 to 100**.
+
+- **0 → Extreme Fear**
+- **100 → Extreme Greed**
+
+It reflects whether traders are:
+- scared and panic selling (**Fear**)
+- overly confident and aggressively buying (**Greed**)
+
+### Simple Analogy
+Imagine the stock market like a crowd during a big sale:
+
+- When everyone is excited and rushing to buy → **Greed**
+- When everyone is scared and running away → **Fear**
+
+It works like a “market emotion meter.”
+
+---
+
+# What is Hyperliquid Trader Data?
+
+Hyperliquid is a crypto trading platform.
+
+The dataset contains the complete trading activity of **32 real traders**, including:
+- every buy and sell trade
+- profit and loss
+- traded coin
+- trade size
+- execution price
+- timestamps
+
+### Simple Analogy
+Imagine having the complete bank statement of 32 traders for several months.
+
+You can track:
+- what they bought
+- what they sold
+- when they traded
+- whether they made profit or loss
+
+---
+
+# Project Goal
+
+The main objective of this project is to answer:
+
+> Does market sentiment affect trader profitability?
+
+This analysis explores:
+- Do traders earn more during Extreme Greed?
+- Do traders panic during Fear?
+- Are traders more aggressive during certain emotions?
+- Which coins perform best during Fear or Greed?
+- How does buying/selling behavior change with market sentiment?
+
+---
+
+# Datasets Used
+
+## 1. Fear & Greed Dataset
+
+Contains daily Bitcoin market sentiment.
+
+### Columns Description
+
+| Column | Description |
+|---|---|
+| `timestamp` | Unix timestamp representing the date |
+| `value` | Sentiment score from 0–100 |
+| `classification` | Sentiment category (Fear, Greed, etc.) |
+| `date` | Readable date used for merging datasets |
+
+### Sentiment Categories
+
+| Score Range | Classification |
+|---|---|
+| 0–24 | Extreme Fear |
+| 25–44 | Fear |
+| 45–55 | Neutral |
+| 56–74 | Greed |
+| 75–100 | Extreme Greed |
+
+---
+
+## 2. Historic Trading Dataset
+
+Contains real trader transaction data from Hyperliquid.
+
+### Columns Description
+
+| Column | Description |
+|---|---|
+| `Account` | Unique wallet/trader ID |
+| `Coin` | Cryptocurrency traded |
+| `Execution Price` | Actual execution price of trade |
+| `Size Tokens` | Quantity of coins traded |
+| `Size USD` | Dollar value of the trade |
+| `Side` | BUY or SELL |
+| `Timestamp IST` | Trade date and time in Indian Standard Time |
+
+---
+
+# Key Analysis Performed
+
+- Data cleaning and preprocessing
+- Merging trader data with sentiment data
+- Profitability analysis by market sentiment
+- Buy vs Sell behavior analysis
+- Win rate calculation
+- Coin-wise performance analysis
+- Crossed order pattern analysis
+- Visualization using Matplotlib
+
+---
+
+# Key Insights
+
+- Traders earned higher profits during **Fear** and **Extreme Greed**
+- During Fear, traders became more aggressive in buying and selling
+- Crowd sentiment significantly affected trader profitability
+- Some coins consistently performed better during panic conditions
+- Contrarian behavior was visible:
+  - traders bought during fear
+  - traders sold during greed
+
+---
+
+# Technologies Used
+
+- Python
+- Pandas
+- NumPy
+- Matplotlib
+- Google Colab
+
+---
+
+# Conclusion
+
+This project demonstrates that market psychology strongly influences trading behavior and profitability.
+
+The analysis supports the idea that:
+- Fear creates opportunity
+- Extreme Greed increases volatility
+- Contrarian trading behavior can generate higher returns
+
+By combining trader transaction data with market sentiment, we can better understand how emotions drive financial decisions in crypto markets.
